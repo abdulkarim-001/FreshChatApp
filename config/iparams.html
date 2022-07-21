@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://static.freshdev.io/fdk/2.0/assets/freshchat.css"
+    />
+    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="./assets/iparams.css" />
+    <script src="./assets/iparams.js"></script>
+    <title>Document</title>
+    <style>
+      input {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>New App</h1>
+    <script>
+      let DOMAIN = null;
+      let EMAIL = null;
+      let PASSWORD = null;
+
+      function submitDetail() {
+        if (
+          document.getElementById("domain").value === "123456" &&
+          document.getElementById("email").value === "123456" &&
+          document.getElementById("password").value === "123456"
+        ) {
+          alert("login succes");
+          DOMAIN = document.getElementById("domain").value;
+          EMAIL = document.getElementById("email").value;
+          PASSWORD = document.getElementById("password").value;
+          removeFunction();
+        } else {
+          alert("login fail");
+        }
+      }
+
+      function removeFunction() {
+        const login = document.getElementById("login");
+        login.remove();
+
+        const form2 = document.getElementById("form2");
+        form2.style.display = "block";
+      }
+    </script>
+
+    <div id="login">
+      <h3>LOGIN</h3>
+      <label>Domain </label>
+      <input type="text" id="domain" name="domain" value="" /><br /><br />
+      <label>Email</label>
+      <input type="text" id="email" name="email" value="" /><br /><br />
+      <label>Password</label>
+      <input type="text" id="password" name="password" value="" /><br /><br />
+      <button id="submit" onclick="submitDetail()">Login</button>
+    </div>
+
+    <div id="form2" style="display: none">
+      <h3>Page 2</h3>
+      <label>Lincese </label>
+      <input type="text" id="lincese" name="lincese" value=" " /><br /><br />
+    </div>
+    <script type="text/javascript">
+      function validate() {
+        return true;
+      }
+
+      function postConfigs() {
+        return {
+          __meta: {
+            secure: ["api_key"],
+          },
+          DOMAIN,
+          EMAIL,
+          PASSWORD,
+        };
+      }
+    </script>
+  </body>
+</html>
