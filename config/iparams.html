@@ -17,20 +17,36 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="./assets/iparams.css" />
-    <script src="./assets/iparams.js"></script>
-    <title>Document</title>
+    <script  type="module"  src="https://unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.esm.js">
+    </script>
+    <script nomodule  src="https://unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.js"></script>
+    
+
+
+    
+    <title>CRM APP</title>
     <style>
       input {
-        width: 100%;
+        width: 90%;
       }
     </style>
   </head>
   <body>
+    <div id="successMsg" style="display: none;">
+      <fw-toast-message open id="type_toast" sticky=true type="success" content="success"></fw-toast-message>
+    </div>
+    <div id="errorMsg" style="display:none">
+      <fw-toast-message open id="type_toast" sticky=true type="error" content="error"></fw-toast-message>
+    </div>
+    <div id="successlicenseMsg" style="display:none">
+      <fw-toast-message open id="type_toast" sticky=true type="success" content="success"></fw-toast-message>
+    </div>
     <h1>New App</h1>
     <script>
       let DOMAIN = null;
       let EMAIL = null;
       let PASSWORD = null;
+      let LICENSE =null;
 
       function submitDetail() {
         if (
@@ -38,15 +54,24 @@
           document.getElementById("email").value === "123456" &&
           document.getElementById("password").value === "123456"
         ) {
-          alert("login succes");
+          document.getElementById("successMsg").style.display = "block";
+          myTimeout = setTimeout(function hidesuccessMsg(){
+            document.getElementById("successMsg").style.display = "none";
+          }, 2000);
+
           DOMAIN = document.getElementById("domain").value;
           EMAIL = document.getElementById("email").value;
           PASSWORD = document.getElementById("password").value;
           removeFunction();
         } else {
-          alert("login fail");
+          document.getElementById("errorMsg").style.display = "block";
+          
+
+          myTimeout = setTimeout(function hideErrorMsg(){
+            document.getElementById("errorMsg").style.display = "none";
+          }, 2000);
         }
-      }
+      }   
 
       function removeFunction() {
         const login = document.getElementById("login");
@@ -55,39 +80,85 @@
         const form2 = document.getElementById("form2");
         form2.style.display = "block";
       }
+      const form3 = document.getElementById("form3").value;
+          form3.style.display ="block"
+      function  licenseAuth(){
+        const license = document.getElementById("license").value;
+        console.log(license)
+        if (license == "123"){
+          
+          LICENSE = document.getElementById("license").value;          
+          document.getElementById("form2").style.display = "none";
+          document.getElementById("successlicenseMsg").style.display = "block";
+          myTimeout = setTimeout(function successlicenseMsg(){
+            document.getElementById("successlicenseMsg").style.display = "none";
+          }, 2000);
+          document.getElementById("form3").style.display = "block";
+          
+        }
+        else{
+          console.log('error');
+          myTimeout = setTimeout(function hideErrorMsg(){
+            document.getElementById("errorMsg").style.display = "block";
+          }, 2000);
+        }
+        
+      }
     </script>
 
     <div id="login">
-      <h3>LOGIN</h3>
+      
+      <h3>LOGIN</h3>     
+
       <label>Domain </label>
+      
       <input type="text" id="domain" name="domain" value="" /><br /><br />
       <label>Email</label>
-      <input type="text" id="email" name="email" value="" /><br /><br />
+      <input type="email" id="email" name="email" value="" /><br /><br />
       <label>Password</label>
-      <input type="text" id="password" name="password" value="" /><br /><br />
-      <button id="submit" onclick="submitDetail()">Login</button>
+      <input type="password" id="password" name="password" value="" /><br /><br />
+      <button id="submit" onclick="submitDetail()">Login</button><br/>
+      
     </div>
 
     <div id="form2" style="display: none">
       <h3>Page 2</h3>
-      <label>Lincese </label>
-      <input type="text" id="lincese" name="lincese" value=" " /><br /><br />
+      <label>License </label>
+      <input type="text" id="license" name="license" value="" /><br /><br />
+      <button id="submit" onclick="licenseAuth()">Submit</button><br/>
     </div>
-    <script type="text/javascript">
-      function validate() {
-        return true;
-      }
+    <div id="form3" style="display: none">
+      <h3>Page 3</h3>
+      <label>Congratz License Accepted Now Click on Install Button  </label>      
 
-      function postConfigs() {
-        return {
-          __meta: {
-            secure: ["api_key"],
-          },
-          DOMAIN,
-          EMAIL,
-          PASSWORD,
-        };
-      }
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+     function validate() {
+    return true;
+  }
+
+  function postConfigs() {
+    return {
+      __meta: {
+        secure: ["api_key"],
+      },
+      DOMAIN,
+      EMAIL,
+      PASSWORD,
+      LICENSE
+    };
+  }
+  function getConfigs(configs) {
+
+    
+  }
     </script>
+
+    
   </body>
 </html>
