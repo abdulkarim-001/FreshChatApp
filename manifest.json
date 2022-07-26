@@ -11,7 +11,14 @@
         },
         "onExternalEvent": {
           "handler": "onExternalEventCallback"
+        },
+        "onConversationCreate": {
+          "handler": "onConversationCreateCallback"
+        },
+        "onConversationUpdate":{
+          "handler": "onConversationUpdateCallback"
         }
+       
       }
     }
   },
@@ -19,5 +26,10 @@
   "engines": {
     "node": "14.20.0",
     "fdk": "8.4.0"
+  },
+  "dependencies" : {
+    "request" : "2.88.2"
   }
+  
 }
+

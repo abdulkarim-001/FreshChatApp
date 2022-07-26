@@ -1,3 +1,4 @@
+const request = require('request');
 exports = {
 
   /**
@@ -9,18 +10,25 @@ exports = {
    * - If Webhook URL generation fails or some error occurs in setup, use `renderData({message: "<Message_text>"});` to disallow installation
    * @param {Object} payload
    */
-  onAppInstallCallback: function (payload) {
-    console.log("Logging arguments from onAppInstallevent : " + JSON.stringify(payload));
-    generateTargetUrl()
-      .then(function (url) {
-        console.info("Generated Webhook URL : " + url);
-        renderData();
-      })
-      .fail(function (err) {
-        console.error(err);
-        renderData({ message: "Generating Webhook URL failed" });
-      });
-  },
+   onAppInstallCallback: function(payload) {
+    console.log("Logging arguments from onAppInstallevent: " + JSON.stringify(payload));
+    let opt = {
+    method:"POST",
+    url : "http://localhost:3000",
+    headers: {
+    // "Authorization": "Bearer <%= iparam.apiKey %>",
+    "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+    }
+    
+    request(opt , function(error , response , body){
+    const _data = JSON.stringify(body);
+    console.log(_data);
+    })
+    // If the setup is successful
+    renderData();
+    },
   /**
    * Payload passed to the generated webhook URL triggers the `onExternalEvent` callback.
    * @param {Object} payload
@@ -33,7 +41,42 @@ exports = {
    * @param {Object} payload
    */
   onAppUninstallCallback: function (payload) {
-    console.log("Logging arguments from onAppUninstall event: " + JSON.stringify(payload));
+    console.log (payload);
     renderData();
-  }
+  },
+  
+    // args is a JSON block containing the payload information
+    // args["iparam"] will contain the installation parameter values
+    //eventCallbackMethod is the call-back function name specified in manifest.json
+     /**
+   * When you click the uninstall icon, the `onAppUninstall` event occurs and then the registered callback method is executed.
+   * @param {Object} payload
+   */
+      onConversationCreateCallback: function(payload) {
+        console.log (payload);
+        renderData();
+      } ,
+      onConversationUpdateCallback: function(payload){
+        console.log (payload);
+        renderData();
+      }
+//       onMessageCreateCallback : function(payload){
+//         let opt = {
+//           method : 'POST',
+//           header : {
+//             'Content-Type' : "application/json"
+//           }
+//           ,body : JSON.stringify(payload),
+//           url : "http://localhost:3000"
+//         }
+//         request(opt,(err,req,body)=>{
+// let _data = JSON.stringify(body)
+// console.log(_data)
+//         })
+//         console.log (payload.data.message.user_id);
+        
+//         renderData();
+//       }
+         
+    
 }
